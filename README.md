@@ -12,6 +12,10 @@
 
 这个项目由极客兔兔的GeeCache启发，并在原先的基础上引入了etcd 进行服务发现和节点存活检测，并参考groupcache的设计，加入了缓存过期机制，热点数据等。本人才疏学浅尚属新人，开源项目仅抛砖引玉，供大家参考学习指正。在此感谢GeeCache和groupcache，在我的学习路上帮助了很多。
 
+## 安装方法
+除了在github进行下载之外，你还可以通过docker进行下载，使用 `docker pull 1712617575/springcache` 进行拉取镜像并启动
+详见 https://hub.docker.com/repository/docker/1712617575/springcache/general
+
 ## 使用方法
 
 这里给出一个例子main.go
