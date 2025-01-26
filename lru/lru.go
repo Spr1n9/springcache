@@ -109,7 +109,9 @@ func (c *Cache) removeElement(ele *list.Element) {
 }
 
 func (c *Cache) Add(key string, value Value, expire time.Time) {
+	// randDuration 是用户添加的过期时间进行一定范围的随机，用于防止大量缓存同一时间过期而发生缓存雪崩
 	randDuration := time.Duration(rand.Int63n(int64(c.ExpireRandom)))
+
 	if ele, ok := c.cache[key]; ok {
 		// 如果key已经存在则将value替换
 		c.ll.MoveToFront(ele)

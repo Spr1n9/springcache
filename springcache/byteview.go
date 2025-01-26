@@ -3,7 +3,7 @@ package springcache
 import "time"
 
 // A ByteView holds an immutable view of bytes.
-// ByteView 用来表示缓存值,它是只读的,是GeeCache主要的数据结构之一
+// ByteView 用来表示缓存值，是SpringCache的存储单元，它实现了lru的Value接口，所以可以直接在lru里面进行存储
 type ByteView struct {
 	b []byte
 	e time.Time

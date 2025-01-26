@@ -12,7 +12,7 @@ import (
 
 var DefaultExpireTime = 30 * time.Second // 设置短过期时间用于测试
 
-// Group 是 GeeCache 最核心的数据结构，负责与用户的交互，并且控制缓存值存储和获取的流程。
+// Group 是 SpringCache 最核心的数据结构，负责与用户的交互，并且控制缓存值存储和获取的流程。
 type Group struct {
 	name      string
 	getter    Getter // 获取源数据的接口
@@ -26,7 +26,7 @@ type Group struct {
 
 var (
 	mu     sync.RWMutex
-	groups = make(map[string]*Group)
+	groups = make(map[string]*Group) // 全局变量groups，里面记录了已经创建的group
 )
 
 func NewGroup(name string, cacheBytes int64, hotcacheBytes int64, getter Getter) *Group {
@@ -65,10 +65,10 @@ func (g *Group) Get(key string) (*ByteView, error) {
 		return &ByteView{}, fmt.Errorf("springcache: key is empty")
 	}
 	if v, ok := g.lookupCache(key); ok {
-		log.Println("GeeCache hit")
+		log.Println("SpringCache hit")
 		return v, nil
 	}
-	log.Println("GeeCache miss, try to add it")
+	log.Println("SpringCache miss, try to add it")
 	return g.Load(key)
 }
 
@@ -163,7 +163,7 @@ func (g *Group) setHotCache(key string, value *ByteView) error {
 	}
 	g.loader.DoOnce(key, func() (interface{}, error) {
 		g.hotCache.add(key, value)
-		log.Printf("GeeCache set hot cache %v \n", value.ByteSlice())
+		log.Printf("SpringCache set hot cache %v \n", value.ByteSlice())
 		return nil, nil
 	})
 	return nil

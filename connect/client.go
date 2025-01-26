@@ -8,7 +8,8 @@ import (
 	"time"
 )
 
-// client 包是去调用远端的方法
+// client 包是去调用远端的方法，封装了用grpc调用远端节点的Get和Set 方法
+
 type Client struct {
 	Name string
 	Etcd *Etcd

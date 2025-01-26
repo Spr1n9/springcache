@@ -90,7 +90,7 @@ func (s *Server) Log(format string, v ...interface{}) {
 	log.Printf("[Server %s] %s", s.self, fmt.Sprintf(format, v...))
 }
 
-// SetPeers 会把节点名在etcd中进行服务发现，并把获取的ip地址加入到哈希环中
+// SetPeers 会把节点名在etcd中进行服务发现，并把获取的ip地址加入到哈希环中，并且把客户端保存到clients这个map中方便后面调用
 func (s *Server) SetPeers(names ...string) {
 
 	for _, name := range names {

@@ -25,13 +25,8 @@ func New(replicas int, fn Hash) *Map {
 		hash:     fn,
 		hashMap:  make(map[int]string),
 	}
-	// 如果没有选择哈希算法，则使用默认的crc32算法
+	// 如果没有选择哈希算法，则使用默认的fnv1算法
 	if m.hash == nil {
-		//m.hash = func(data []byte) uint32 {
-		//	i, _ := strconv.Atoi(string(data))
-		//	fmt.Printf("In consistent.New, data: %v, i : %v", data, i)
-		//	return uint32(i)
-		//}
 		m.hash = fnv1.HashBytes64
 		// m.hash = crc32.ChecksumIEEE
 	}
@@ -81,7 +76,7 @@ func (m *Map) Get(key string) string {
 		}
 	}
 	idx := i
-	// 有一种特殊情况是 当加入的hash值超过环上最大节点的哈希值时,需要将其指向第一个节点,也就是"2"
+	// 有一种特殊情况是 当加入的hash值超过环上最大节点的哈希值时,需要将其指向第一个节点
 	// 当这种情况发生时, 如果当前哈希表中有9个节点，那么 idx 会等于 9
 	// 所以对idx与9取余, 使得当idx=9 的时候能归并为 0 ,也就是第一个节点
 	//log.Println("here, consistenthash.Get, idx: ", idx, ", m.keys[idx%len(m.keys)]:", m.keys[idx%len(m.keys)], ", m.hashMap[m.keys[idx%len(m.keys)]]:", m.hashMap[m.keys[idx%len(m.keys)]])
